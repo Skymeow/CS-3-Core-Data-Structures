@@ -1,5 +1,5 @@
 #!python
-
+from functools import reduce
 import string
 # Hint: Use these string constants to encode/decode hexadecimal digits and more
 # string.digits is '0123456789'
@@ -30,19 +30,22 @@ def decode(digits, base):
 
 def encode(number, base):
     """Encode given number in base 10 to digits in given base."""
+    encode_list = decode_dict = {0: "0", 1: "1", 2: "2", 3: "3", 4: "4", 5: "5", 6: "6", 7: "7", 8: "8", 9: "9", 10: "a", 11: "b", 12: "c", 13: "d", 14: "e", 15: "f"}
     assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
     # Handle unsigned numbers only for now
     assert number >= 0, 'number is negative: {}'.format(number)
     # TODO: Encode number in binary (base 2)
-    check = number
-    while check > 0:
-        bit = number % 2
-        check = number / 2
-
-    # TODO: Encode number in hexadecimal (base 16)
-    # ...
-    # TODO: Encode number in any base (2 up to 36)
-    # ...
+    bit_list = []
+    if number == 0:
+        return [0]
+    while number:
+        bit = number % base
+        bit = encode_list[bit]
+        bit_list.append(bit)
+        number = number >> 1
+    str_result = reduce(lambda x, y: x+str(y), bit_list[::-1], '')
+    int_result = str_result
+    return int_result
 
 
 def convert(digits, base1, base2):
@@ -68,8 +71,10 @@ def main():
     """Read command-line arguments and convert given digits between bases."""
     import sys
     args = sys.argv[1:]  # Ignore script file name
-    print(decode("c9", 16))
-    print(decode("1101", 2))
+    # print(decode("c9", 16))
+    # print(decode("1101", 2))
+    print(encode(56, 16))
+    print(encode(13, 2))
     if len(args) == 3:
         digits = args[0]
         base1 = int(args[1])
