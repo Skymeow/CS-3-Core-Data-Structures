@@ -11,31 +11,34 @@ import string
 
 
 def decode(digits, base):
-    """Decode given digits in given base to number in base 10.
-    digits: str -- string representation of number (in given base)
-    base: int -- base of given number
-    return: int -- integer representation of number (in base 10)"""
     # Handle up to base 36 [0-9a-z]
     assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
     # TODO: Decode digits from binary (base 2)
-    # ...
-    # TODO: Decode digits from hexadecimal (base 16)
-    # ...
-    # TODO: Decode digits from any base (2 up to 36)
-    # ...
-
+    decode_dict = {"0": 0, "1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "a": 10, "b": 11, "c": 12, "d": 13, "e": 14, "f": 15}
+    # list is backward cau we read from right to left
+    digit_list = [i for i in digits[::-1]]
+    exp = 1
+    result_int = 0
+    for digit in digit_list:
+        if base == 2:
+            result_int += int(digit) * exp
+            exp = exp * base
+        else:
+            result_int += decode_dict[digit]
+    # print(result_int, decode_dict["c"])
+    return result_int
 
 def encode(number, base):
-    """Encode given number in base 10 to digits in given base.
-    number: int -- integer representation of number (in base 10)
-    base: int -- base to convert to
-    return: str -- string representation of number (in given base)"""
-    # Handle up to base 36 [0-9a-z]
+    """Encode given number in base 10 to digits in given base."""
     assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
     # Handle unsigned numbers only for now
     assert number >= 0, 'number is negative: {}'.format(number)
     # TODO: Encode number in binary (base 2)
-    # ...
+    check = number
+    while check > 0:
+        bit = number % 2
+        check = number / 2
+
     # TODO: Encode number in hexadecimal (base 16)
     # ...
     # TODO: Encode number in any base (2 up to 36)
@@ -52,7 +55,7 @@ def convert(digits, base1, base2):
     assert 2 <= base1 <= 36, 'base1 is out of range: {}'.format(base1)
     assert 2 <= base2 <= 36, 'base2 is out of range: {}'.format(base2)
     # TODO: Convert digits from base 2 to base 16 (and vice versa)
-    # ...
+
     # TODO: Convert digits from base 2 to base 10 (and vice versa)
     # ...
     # TODO: Convert digits from base 10 to base 16 (and vice versa)
@@ -65,6 +68,8 @@ def main():
     """Read command-line arguments and convert given digits between bases."""
     import sys
     args = sys.argv[1:]  # Ignore script file name
+    print(decode("c9", 16))
+    print(decode("1101", 2))
     if len(args) == 3:
         digits = args[0]
         base1 = int(args[1])
