@@ -18,9 +18,9 @@ def decode(digits, base):
     # ord(97) is 'a', ord(123) is 'z'
     for i in digits:
         # if i is letter
-        if ord(i) >= 97 and ord(i) <= 123:
+        if ord(i) >= 97 and ord(i) <= 122:
             # convert letter into base 10
-            i = ord(i) - 97
+            i = ord(i) - 87
         else:
             i = int(i)
         base_ten += i * pow(base, exp)
@@ -83,28 +83,18 @@ def convert(digits, base1, base2):
     assert 2 <= base1 <= 36, 'base1 is out of range: {}'.format(base1)
     assert 2 <= base2 <= 36, 'base2 is out of range: {}'.format(base2)
     # TODO: Convert digits from base 2 to base 16 (and vice versa)
-
-    # TODO: Convert digits from base 2 to base 10 (and vice versa)
-    # ...
-    # TODO: Convert digits from base 10 to base 16 (and vice versa)
-    # ...
-    # TODO: Convert digits from any base to any base (2 up to 36)
-    # ...
+    # convert into base 10
+    decoded_num = decode(digits, base1)
+    # convert into base 16
+    result = encode(decoded_num, base2)
+    return result
 
 
 def main():
     """Read command-line arguments and convert given digits between bases."""
     import sys
     args = sys.argv[1:]  # Ignore script file name
-    print(decode('1010', 4), 68)
-    print(decode("c9", 16))
-    # print(decode("1101", 2))
-    # print(decode('1010', 2))
-    # print(encode(13, 2), "1101")
-    # print(encode(248975, 4), '330302033')
-    # print(encode(64, 10), "64") #'64'
-    # print(encode(255, 16), 'ff') #'ff'
-    # print(encode(1234, 2), '10011010010') #'10011010010'
+    print(decode('a', 16), 10)
     if len(args) == 3:
         digits = args[0]
         base1 = int(args[1])
