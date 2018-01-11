@@ -6,17 +6,19 @@ def factorial(n):
     # check if n is negative or not an integer (invalid input)
     if n < 0 or not isinstance(n, int):
         raise ValueError('factorial is undefined for n = {}'.format(n))
-    # implement factorial_iterative and factorial_recursive below, then
-    # change this to call your implementation to verify it passes all tests
-    # return factorial_iterative(n)
-    return factorial_recursive(n)
+    return factorial_iterative(n)
 
 
 def factorial_iterative(n):
-    # TODO: implement the factorial function iteratively here
-    pass
-    # once implemented, change factorial (above) to call factorial_iterative
-    # to verify that your iterative implementation passes all tests
+    if n == 0 or n == 1:
+        factorial = 1
+    i = 1
+    factorial = 1
+    while i < n:
+        compound = i + 1
+        factorial = factorial * compound
+        i += 1
+    return factorial
 
 
 def factorial_recursive(n):
