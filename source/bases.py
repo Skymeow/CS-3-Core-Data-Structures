@@ -13,40 +13,65 @@ import string
 def decode(digits, base):
     # Handle up to base 36 [0-9a-z]
     assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
-    # TODO: Decode digits from binary (base 2)
-    decode_dict = {"0": 0, "1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "a": 10, "b": 11, "c": 12, "d": 13, "e": 14, "f": 15}
-    # list is backward cau we read from right to left
-    digit_list = [i for i in digits[::-1]]
-    exp = 1
-    result_int = 0
-    for digit in digit_list:
-        if base == 2:
-            result_int += int(digit) * exp
-            exp = exp * base
+    exp = len(digits) - 1
+    base_ten = 0
+    # ord(97) is 'a', ord(123) is 'z'
+    for i in digits:
+        # if i is letter
+        if ord(i) >= 97 and ord(i) <= 123:
+            # convert letter into base 10
+            i = ord(i) - 97
         else:
-            result_int += decode_dict[digit]
-    # print(result_int, decode_dict["c"])
-    return result_int
+            i = int(i)
+        base_ten += i * pow(base, exp)
+        exp -= 1
+    return base_ten
+# def encode(number, base):
+#     """Encode given number in base 10 to digits in given base."""
+#     encode_list = decode_dict = {0: "0", 1: "1", 2: "2", 3: "3", 4: "4", 5: "5", 6: "6", 7: "7", 8: "8", 9: "9", 10: "a", 11: "b", 12: "c", 13: "d", 14: "e", 15: "f"}
+#     assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
+#     # Handle unsigned numbers only for now
+#     assert number >= 0, 'number is negative: {}'.format(number)
+#     # TODO: Encode number in binary (base 2)
+#     bit_list = []
+#     if number == 0:
+#         return [0]
+#     # while number is non zero
+#     while number:
+#         bit = number % base
+#         bit = encode_list[bit]
+#         bit_list.append(bit)
+#         number = number >> 1
+#     str_result = reduce(lambda x, y: x+y, bit_list[::-1])
+#     int_result = str_result
+#     return int_result
 
 def encode(number, base):
-    """Encode given number in base 10 to digits in given base."""
-    encode_list = decode_dict = {0: "0", 1: "1", 2: "2", 3: "3", 4: "4", 5: "5", 6: "6", 7: "7", 8: "8", 9: "9", 10: "a", 11: "b", 12: "c", 13: "d", 14: "e", 15: "f"}
     assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
-    # Handle unsigned numbers only for now
     assert number >= 0, 'number is negative: {}'.format(number)
-    # TODO: Encode number in binary (base 2)
+    n = 0
+    current = 0
     bit_list = []
-    if number == 0:
-        return [0]
-    while number:
-        bit = number % base
-        bit = encode_list[bit]
-        bit_list.append(bit)
-        number = number >> 1
-    str_result = reduce(lambda x, y: x+str(y), bit_list[::-1], '')
-    int_result = str_result
-    return int_result
-
+    # find the biggest exponential of base within number
+    while pow(base, n) <= number/base:
+        n+=1
+   # find how many times the number has to the biggest exponential
+    while n >= 0:
+        if pow(base, n) <= number:
+            current += 1
+            number -= pow(base, n)
+        else:
+            if current >= 10:
+                # char(87) is 'a', so we convert it into tr
+                current = chr(current + 87)
+            bit_list.append(current)
+            # if current is 0, then append nothing to bit_list
+            if current == "0":
+                bit_list.append("")
+            # reset current into 0 and begin next iteration
+            current = 0
+            n -= 1
+    return "".join(str(e) for e in bit_list)
 
 def convert(digits, base1, base2):
     """Convert given digits in base1 to digits in base2.
@@ -71,10 +96,15 @@ def main():
     """Read command-line arguments and convert given digits between bases."""
     import sys
     args = sys.argv[1:]  # Ignore script file name
-    # print(decode("c9", 16))
+    print(decode('1010', 4), 68)
+    print(decode("c9", 16))
     # print(decode("1101", 2))
-    print(encode(56, 16))
-    print(encode(13, 2))
+    # print(decode('1010', 2))
+    # print(encode(13, 2), "1101")
+    # print(encode(248975, 4), '330302033')
+    # print(encode(64, 10), "64") #'64'
+    # print(encode(255, 16), 'ff') #'ff'
+    # print(encode(1234, 2), '10011010010') #'10011010010'
     if len(args) == 3:
         digits = args[0]
         base1 = int(args[1])
