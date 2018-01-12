@@ -33,19 +33,24 @@ def binary_search(array, item):
     """return the index of item in sorted array or None if item is not found"""
     # implement binary_search_iterative and binary_search_recursive below, then
     # change this to call your implementation to verify it passes all tests
-    return binary_search_iterative(array, item)
-    # return binary_search_recursive(array, item)
+    # return binary_search_iterative(array, item)
+    return binary_search_recursive(array, item)
 
 
 def binary_search_iterative(array, item):
     left = 0
     right = len(array) - 1
+    # if we find the item in first index, don't go into while loop
     if array[0] == item:
         return 0
+     # make sure mid bigger then 1
     mid = int(left + (right - left) / 2)
+    # make sure index doesn't go out of scope,since we are increasing the value of left, decrease the value of right
     while left <= right:
+        # item found
         if array[mid] == item:
             return mid
+        # if item is in the left of mid, move right one step back to the left
         elif array[mid] > item:
             mid -= 1
             right = mid
@@ -57,23 +62,26 @@ def binary_search_iterative(array, item):
 
 
 def binary_search_recursive(array, item, left=None, right=None):
-    left = array[0]
-    right = array[-1]
-    left_index = 0
-    right_index = len(array) - 1
-    mid = int(left_index + (right_index - left_index) / 2)
+    if left is None and right is None:
+        left = 0
+        right = len(array) - 1
+    if left > right:
+        return None
+    if array[0] == item:
+        return 0
+    mid = int(left + (right - left) / 2)
     if array[mid] == item:
         return mid
     elif item < array[mid]:
         mid -= 1
-        right_index = mid
-        return binary_search_recursive(array, item, left_index, right_index)
+        right = mid
+        return binary_search_recursive(array, item, left, right)
     elif item > array[mid]:
         mid += 1
-        left_index = mid
-        return binary_search_recursive(array, item, left_index, right_index)
+        left = mid
+        return binary_search_recursive(array, item, left, right)
 
-
+print(binary_search_recursive(['Alex', 'Brian', 'Julia'], "Julia", left=None, right=None))
 
 
 
