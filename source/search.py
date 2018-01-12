@@ -62,14 +62,19 @@ def binary_search_iterative(array, item):
 
 
 def binary_search_recursive(array, item, left=None, right=None):
+    # set the left to be first index, right to last index only once
     if left is None and right is None:
         left = 0
         right = len(array) - 1
+    # if goes out of array scope, end the recursive
     if left > right:
         return None
+    # if first item is what we want, return 0
     if array[0] == item:
         return 0
+    # set mid of left and right
     mid = int(left + (right - left) / 2)
+    # return found item index
     if array[mid] == item:
         return mid
     elif item < array[mid]:

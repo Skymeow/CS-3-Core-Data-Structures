@@ -18,11 +18,18 @@ def is_palindrome(text):
 
 
 def is_palindrome_iterative(text):
-    # TODO: implement the is_palindrome function iteratively here
-    pass
-    # once implemented, change is_palindrome to call is_palindrome_iterative
-    # to verify that your iterative implementation passes all tests
-
+    formatted_text = text.lower()
+    formatted_text = "".join(e for e in formatted_text if e.isalnum())
+    left = 0
+    right = len(formatted_text) - 1
+    stop_check = int(len(formatted_text) / 2)
+    i = 0
+    while i < stop_check:
+        if formatted_text[left + i] == formatted_text[right - i]:
+            i += 1
+        else:
+            return False
+    return True
 
 def is_palindrome_recursive(text, left=None, right=None):
     # TODO: implement the is_palindrome function recursively here
