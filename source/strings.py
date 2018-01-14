@@ -1,10 +1,60 @@
 #!python
+# this function is for test if all letters in patter matches text regarless of order
+# def contains(text, pattern):
+#     """Return a boolean indicating whether pattern occurs in text."""
+#     assert isinstance(text, str), 'text is not a string: {}'.format(text)
+#     assert isinstance(pattern, str), 'pattern is not a string: {}'.format(text)
+#     i = 0
+#     end = len(text) - 1
+#     pattern_index = 0
+#     check = 0
+#     while i <= end:
+#         # if first item found, check +1
+#         if pattern[pattern_index] == text[i]:
+#             check += 1
+#         else:
+#             check -= 1
+
+#         if check < pattern_index:
+#             return False
+#         else:
+#             pattern_index += 1
+
+#         if pattern_index == len(pattern) - 1:
+#             return True
+#         i += 1
 
 def contains(text, pattern):
     """Return a boolean indicating whether pattern occurs in text."""
     assert isinstance(text, str), 'text is not a string: {}'.format(text)
     assert isinstance(pattern, str), 'pattern is not a string: {}'.format(text)
-    # TODO: Implement contains here (iteratively and/or recursively)
+    i = 0
+    text = text.replace(' ', '')
+    end = len(text) - 1
+    pattern_index = 0
+    check = 0
+    while i <= end:
+        # if first item found, check +1
+        if pattern[pattern_index] == text[i]:
+            check += 1
+            next_i = i
+        else:
+            check -= 1
+            i += 1
+        if check < pattern_index:
+            return False
+        else:
+            pattern_index += 1
+
+        # delete matched pattern letter
+        text = text[(next_i+1):]
+        # print(text, check, pattern_index-1)
+        if len(text) <= 0:
+            return False
+
+        if pattern_index == len(pattern) - 1:
+            return True
+        # i += 1
 
 
 def find_index(text, pattern):
