@@ -13,8 +13,8 @@ def is_palindrome(text):
     # implement is_palindrome_iterative and is_palindrome_recursive below, then
     # change this to call your implementation to verify it passes all tests
     assert isinstance(text, str), 'input is not a string: {}'.format(text)
-    # return is_palindrome_iterative(text)
-    return is_palindrome_recursive(text)
+    return is_palindrome_iterative(text)
+    # return is_palindrome_recursive(text)
 
 
 def is_palindrome_iterative(text):
@@ -22,8 +22,10 @@ def is_palindrome_iterative(text):
     formatted_text = "".join(e for e in formatted_text if e.isalnum())
     left = 0
     right = len(formatted_text) - 1
+    # get the middle postion of text
     stop_check = int(len(formatted_text) / 2)
     i = 0
+    # iterate till hit the middle
     while i < stop_check:
         if formatted_text[left + i] == formatted_text[right - i]:
             i += 1
@@ -35,16 +37,19 @@ def is_palindrome_iterative(text):
 def is_palindrome_recursive(text, left=None, right=None):
     formatted_text = text.lower()
     formatted_text = "".join(e for e in formatted_text if e.isalnum())
-    left = 0
-    right = len(formatted_text) - 1
+    if left == None and right == None:
+        left = 0
+        right = len(formatted_text) - 1
     stop_check = int(len(formatted_text) / 2)
-    if formatted_text[left + 1] == formatted_text[right + 1]:
-        return True
-    else:
-        return False
-    if right >= stop_check and left <= stop_check:
-        return is_palindrome_recursive(text, left, right)
-
+    # if position haven't met at center
+    if left < right:
+        if formatted_text[left] == formatted_text[right]:
+            left += 1
+            right -= 1
+            return is_palindrome_recursive(formatted_text, left, right)
+        else:
+            return False
+    return True
 
 
 
