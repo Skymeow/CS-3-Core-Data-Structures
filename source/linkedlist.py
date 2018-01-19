@@ -157,7 +157,7 @@ class LinkedList(object):
             next_node = current_node.next
             if next_node.data == old_item.data:
                 # if old node not the tail
-                if next_node !== self.tail:
+                if next_node != self.tail:
                     # set variable for the node after old item
                     new_next_node = next_node.next
                     # assign new item's link to the node after old item
