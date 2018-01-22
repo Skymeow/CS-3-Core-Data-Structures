@@ -36,18 +36,16 @@ def contains(text, pattern):
     i = 0
     end = len(text)
     while i < end:
-        # if first item found, check +1
         if pattern[0] == text[i]:
-            for n in range(0, len(pattern)):
-                # if the pattern character doesn't match character in text, or index out of text range
-                if text[i+n] != pattern[n] or i+n > len(text) - 1:
-                    break
-                # ran through all character in pattern and all matched
-                elif n == len(pattern) - 1 and text[i+n] == pattern[n]:
-                    return True
+            i += 1
+            if text[i+1] != pattern[i]:
+                break
+            if i+1 > len(text) - 1:
+                break
+            elif i+1 == len(pattern) and text[i+1] == pattern_index[i]:
+                return True
         i += 1
     return False
-
 
 def find_index(text, pattern):
     """Return the starting index of the first occurrence of pattern in text,
