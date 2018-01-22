@@ -24,6 +24,7 @@ class LinkedList(object):
             for item in iterable:
                 self.append(item)
 
+
     def __str__(self):
         """Return a formatted string representation of this linked list."""
         items = ['({!r})'.format(item) for item in self.items()]
@@ -84,20 +85,31 @@ class LinkedList(object):
             raise ValueError('List index out of range: {}'.format(index))
         # TODO: Find the node at the given index and return its data
         else:
-            node_data = self.items()
-            found_data = node_data[index]
-            return found_data
+            current_node = self.head
+            for i in range(index):
+                current_node = current_node.next
+            return current_node.data
 
     def insert_at_index(self, index, item):
         if not (0 <= index <= self.size):
             raise ValueError('List index out of range: {}'.format(index))
         # TODO: Find the node before the given index and insert item after it
-        data = self.get_at_index(index)
-        insert_node = Node(item)
-        for node in self:
-            if node == insert_node:
-                self.append(insert_node)
-        return self
+        # if we want to insert at the head of linked list, use prepend
+        if index == 0:
+            self.prepend(item)
+        # if we want to insert at the head of linked list, use append
+        elif index == self.size:
+            self.append(item)
+        else:
+            insert_node = Node(item)
+            head_node = self.head
+            for i in range(index):
+                old_node = head_node
+                current_node = old_node.next
+            insert_node.next = current_node
+            old_node.next = insert_node
+            self.size += 1
+
 
 
     def append(self, item):
@@ -114,6 +126,7 @@ class LinkedList(object):
             self.tail.next = new_node
         # Update tail to new node regardless
         self.tail = new_node
+        self.size += 1
 
     def prepend(self, item):
         """Insert the given item at the head of this linked list.
@@ -129,6 +142,8 @@ class LinkedList(object):
             new_node.next = self.head
         # Update head to new node regardless
         self.head = new_node
+        # update size
+        self.size += 1
 
     def find(self, quality):
         """Return an item from this linked list satisfying the given quality.
@@ -153,23 +168,12 @@ class LinkedList(object):
         # data with new_item, without creating a new node object
         current_node = self.head
         found = False
-        while current_node.next:
-            next_node = current_node.next
-            if next_node.data == old_item.data:
-                # if old node not the tail
-                if next_node != self.tail:
-                    # set variable for the node after old item
-                    new_next_node = next_node.next
-                    # assign new item's link to the node after old item
-                    new_item.next = new_next_node
-                    # set the node before old item to point to new item
-                    current_node.next = new_item
-                else:
-                    self.tail = new_item
-                    current_node.next = new_item
-                    # set new item to point to none caz it's the new tail now
-                    new_item.next = None
-            found = True
+        while current_node is not None:
+            if current_node.data == old_item:
+                current_node.data == new_item
+                found = True
+                return
+            current_node = current_node.next
         if not found:
              raise ValueError('Item not found: {}'.format(item))
 
@@ -217,6 +221,7 @@ class LinkedList(object):
                     previous.next = None
                 # Update tail to the previous node regardless
                 self.tail = previous
+            self.size -= 1
         else:
             # Otherwise raise an error to tell the user that delete has failed
             raise ValueError('Item not found: {}'.format(item))
@@ -239,6 +244,8 @@ def test_linked_list():
     print('length: {}'.format(ll.length()))
 
     print('Getting items by index:')
+    print(ll.size)
+    print(ll.get_at_index(1))
     for index in range(ll.size):
         item = ll.get_at_index(index)
         print('get_at_index({}): {!r}'.format(index, item))

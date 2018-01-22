@@ -24,8 +24,11 @@
 #             return True
 #         i += 1
 
+# strings are immutable in every language so slice is copying, so run time depends on the lens of slice to copy
+# wrost case: O(n*p)
 def contains(text, pattern):
     """Return a boolean indicating whether pattern occurs in text."""
+
     assert isinstance(text, str), 'text is not a string: {}'.format(text)
     assert isinstance(pattern, str), 'pattern is not a string: {}'.format(text)
     if pattern == '':
@@ -49,6 +52,7 @@ def contains(text, pattern):
 def find_index(text, pattern):
     """Return the starting index of the first occurrence of pattern in text,
     or None if not found."""
+    # annotate run time
     assert isinstance(text, str), 'text is not a string: {}'.format(text)
     assert isinstance(pattern, str), 'pattern is not a string: {}'.format(text)
     if pattern == '':
@@ -60,7 +64,9 @@ def find_index(text, pattern):
         if pattern[0] == text[i]:
             for n in range(0, len(pattern)):
                 # if the pattern character doesn't match character in text, or index out of text range
-                if text[i+n] != pattern[n] or i+n > len(text) - 1:
+                if text[i+n] != pattern[n]:
+                    break
+                if i+n > len(text) - 1:
                     # exit out of for loop
                     break
                 # ran through all character in pattern and all matched
