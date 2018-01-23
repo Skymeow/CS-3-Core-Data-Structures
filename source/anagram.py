@@ -12,23 +12,24 @@ def make_anagram(text):
         return arr
 print(make_anagram("tacohole"))
 
-# recursive method to convert list of str into different lists containing the str element
+# recursive method to convert str_list of str into different str_lists containing the str element
 def permutation(text):
-    list = list(text)
-    if len(list) == 0:
+    str_list = list(text)
+    if len(str_list) == 0:
         return []
-    if len(list) == 1:
-        return [list]
+    if len(str_list) == 1:
+        return [str_list]
     result = []
     # calculate the permutation
-    for i in range(len(list)):
-        item = list[i]
-        # extract out the rest of the list except for item
-        remain = list[:i] + list[i+1:]
+    for i in range(len(str_list)):
+        item = str_list[i]
+        # extract out the rest of the str_list except for item
+        remain = str_list[:i] + str_list[i+1:]
         for j in permutation(remain):
-            # generate list that starts with each different element of str list
+            # generate str_list that starts with each different element of str str_list
             result.append([item] + j)
     return result
-
+for p in permutation("whatthefuck"):
+    print(p)
 
 

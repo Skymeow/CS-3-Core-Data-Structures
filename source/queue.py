@@ -37,6 +37,7 @@ class LinkedQueue(object):
         Running time: O(???) – Why? [TODO]"""
         # TODO: Insert given item
         self.list.append(item)
+        # if we use prepend, we gon pay o(n) for dequeue
 
     def front(self):
         """Return the item at the front of this queue without removing it,
@@ -113,7 +114,7 @@ class ArrayQueue(object):
             raise ValueError("empty stack")
         else:
             first_index = 0
-            front_item = self.list.del(first_index)
+            front_item = self.list.pop(first_index)
             return front_item
 
 # Implement LinkedQueue and ArrayQueue above, then change the assignment below

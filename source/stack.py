@@ -22,7 +22,7 @@ class LinkedStack(object):
     def is_empty(self):
         """Return True if this stack is empty, or False otherwise."""
         # TODO: Check if empty
-        if self.list.is_empty == None:
+        if self.list.is_empty() == None:
             return False
         return True
 
@@ -36,17 +36,19 @@ class LinkedStack(object):
         """Insert the given item on the top of this stack.
         Running time: O(???) – Why? [TODO]"""
         # TODO: Push given item
+        # always o(n) time
         self.list.prepend(item)
 
     def peek(self):
         """Return the item on the top of this stack without removing it,
         or None if this stack is empty."""
+        # always o(n) time
         # TODO: Return top item, if any
         last_index = self.length()
         # if stack not empty
         if last_index != 0:
             # use linked list function to get node at index
-            found_item = self.list.get_at_index(last_index)
+            found_item = self.list.head.data
             return found_item
         return None
 
@@ -98,6 +100,8 @@ class ArrayStack(object):
         """Insert the given item on the top of this stack.
         Running time: O(???) – Why? [TODO]"""
         # TODO: Insert given item
+        # run time : O(n) caz every item in array need to move back one
+        # would be average o(1) if append
         self.list.insert(0, item)
 
     def peek(self):
@@ -114,7 +118,8 @@ class ArrayStack(object):
         Running time: O(???) – Why? [TODO]"""
         # TODO: Remove and return top item, if any
         last_index = self.length()
-        last_item = self.list.del(last_index)
+         #run time: averrage constant time caz sometimes arr run out of space need to copy to next location
+        last_item = self.list[last_index - 1]
         return last_item
 # Implement LinkedStack and ArrayStack above, then change the assignment below
 # to use each of your Stack implementations to verify they each pass all tests
