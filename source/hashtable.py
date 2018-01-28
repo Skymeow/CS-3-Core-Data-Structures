@@ -111,7 +111,7 @@ class HashTable(object):
         entry = bucket.find(lambda key_value: key_value[0] == key)
         if entry is not None:  # Found
             # In this case, the given key's value is being updated
-            # Remove the old key-value entry from the bucket first
+             # Remove the old key-value entry from the bucket first
             bucket.delete(entry)
         else:
             # not found , increase size
@@ -153,15 +153,19 @@ class HashTable(object):
             new_size = len(self.buckets) / 2  # Half size
         # TODO: Get a list to temporarily hold all current key-value entries
         temp = self.items()
-        # TODO: Create a new list of new_size total empty linked list buckets
-        self.buckets = [LinkedList() for i in range(new_size)]
-        self.size = 0
-        # TODO: Insert each key-value entry into the new list of buckets,
-        # which will rehash them into a new bucket index based on the new size
+        # reinit a new hashtable
+        self.__init__(new_size)
+        # self.buckets = [LinkedList() for i in range(new_size)]
+        # the same with: self.buckets = [LinkedList()] * new_size?
+        #it won't work, caz linkedlist is mutable, so it just multiply on top of each other
+        # it's one empty linkedlist that got pointed to n times
+        # typical shallow copy
+        # self.size = 0
+        # Insert each key-value entry into the new list of buckets,increase size one at a time
         for k, v in temp:
             self.set(k, v)
 
-
+# linear probing: when a collision, go to next bucket (python build in )
 def test_hash_table():
     ht = HashTable(4)
     print('HashTable: ' + str(ht))
