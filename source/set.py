@@ -49,54 +49,48 @@ class Set(object):
             self.elements.delete(element)
 
     # return a new set that is the union of this set and other_set
-    # def union(self, other_set):
-    #     other_set_keys = other_set.elements.keys()
-    #     self_keys = self.elements.keys()
-    #     # the total of self set and other set keys
-    #     all_keys = self.elements.keys().extend(other_set_keys)
-    #     new_set = self.elements
-    #     for key in all_keys:
-    #         # loop through all keys, if key not in self, add to self set
-    #         if key not in self_keys:
-    #             new_set.elements.set(key, None)
-    #     return new_set
-
     def union(self, other_set):
-        all_set = other_set + self.elements
-        union = all_set - self.intersection(other_set)
-        return union
+        for k in other_set.elements.keys():
+            # self.add(k)
+            self.elements.set(k, None)
+        return self
 
     # return a new set that is the intersection of this set and other_set
-    # def intersection(self, other_set):
-    #     all_set = other_set + self.elements
-    #     # intersection is the sub of all set and union set
-    #     inter_set = all_set - self.union(other_set)
-    #     return inter_set
-
     # loop through shorter set and use contain inside of for loop to reduce run time to the length of linkedlist
     def intersection(self, other_set):
         interset = Set()
         len_self = self.elements.length()
-        len_other = other_set.length()
+        len_other = other_set.elements.length()
         if len_self < len_other:
-            for hashtable in len_self:
-                if self.other_set.contains(hashtable):
-                    interset.elements.set(hashtable)
+            # check if other set contain the key in self set keys
+            for k in self.elements.keys():
+                if other_set.elements.contains(k):
+                    # add the key to new set
+                    interset.add(k)
         else:
-            for hashtable in len_other:
-                if self.elements.contains(hashtable):
-                    interset.elements.set(hashtable)
+            for k in other_set.elements.keys():
+                if self.elements.contains(k):
+                    interset.add(k)
         return interset
 
     # return a new set that is the difference of this set and other_set
     def difference(self, other_set):
-        diff_set = other_set + self.elements - self.intersection(other_set)
+        diff_set = Set()
+        # add key that's in self but not in other set
+        for k in self.elements.keys():
+            if not other_set.elements.contains(k):
+                diff_set.add(k)
+        # add key that's in other but not in self set
+        for k in other_set.elements.keys():
+            if not self.elements.contains(k):
+                diff_set.add(k)
         return diff_set
 
     # return a boolean indicating whether other_set is a subset of this set
     def is_subset(self, other_set):
-        for hashtable in other_set:
-            if hashtable not in self.elements:
+        for k in other_set.elements.keys():
+            # if find a k of other set not in self, the subset not exist
+            if not self.elements.contains(k):
                 return False
         return True
 
@@ -109,7 +103,7 @@ def test_set():
     other_set.add("you")
     other_set.add("a")
     test_union = new_set.union(other_set)
-    test_inter = new_set.inter_section(other_set)
+    test_inter = new_set.intersection(other_set)
     print(new_set.elements)
     print(other_set.elements)
     print(test_union.elements, test_inter.elements)
