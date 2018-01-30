@@ -16,24 +16,24 @@ class BinaryTreeNode(object):
     def is_leaf(self):
         """Return True if this node is a leaf (has no children)."""
         # TODO: Check if both left child and right child have no value
-        return ... and ...
+        return self.left == None and self.right == None
 
     def is_branch(self):
         """Return True if this node is a branch (has at least one child)."""
         # TODO: Check if either left child or right child has a value
-        return ... or ...
+        return self.left != None or self.right != None
 
     def height(self):
         """Return the height of this node (the number of edges on the longest
-        downward path from this node to a descendant leaf node).
-        TODO: Best and worst case running time: ??? under what conditions?"""
+        downward path from this node to a descendant leaf node)."""
         # TODO: Check if left child has a value and if so calculate its height
-        ...
-        # TODO: Check if right child has a value and if so calculate its height
-        ...
-        # Return one more than the greater of the left height and right height
-        ...
-
+        if not self.is_leaf():
+            if self.right != None:
+                self.left = self.height()
+            # Return one more than the greater of the left height and right height
+            return max(right + 1, left + 1)
+        # if node doesn't have child, height is 0
+        return 0
 
 class BinarySearchTree(object):
 
@@ -56,9 +56,11 @@ class BinarySearchTree(object):
     def height(self):
         """Return the height of this tree (the number of edges on the longest
         downward path from this tree's root node to a descendant leaf node).
-        TODO: Best and worst case running time: ??? under what conditions?"""
+        """
         # TODO: Check if root node has a value and if so calculate its height
-        ...
+        if self.root:
+           return self.height()
+        raise ValueError("tree empty nooooo")
 
     def contains(self, item):
         """Return True if this binary search tree contains the given item.
@@ -89,7 +91,6 @@ class BinarySearchTree(object):
             self.root = ...
             # TODO: Increase the tree size
             self.size ...
-            return
         # Find the parent node of where the given item should be inserted
         parent = self._find_parent_node(item)
         # TODO: Check if the given item should be inserted left of parent node
