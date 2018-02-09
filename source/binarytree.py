@@ -43,6 +43,8 @@ class BinaryTreeNode(object):
         # if node doesn't have child, height is 0
         return 0
 
+# might have empty seat in hashtable, but in tree all node have data, so tree has the advantage of memory storage
+# in unbalanced tree, you need to pay more run time cost
 class BinarySearchTree(object):
 
     def __init__(self, items=None):
@@ -88,7 +90,7 @@ class BinarySearchTree(object):
         # Find a node with the given item, if any
         node = self._find_node(item)
         # TODO: Return the node's data if found, or None
-        return node
+        return node.data
 
     def insert(self, item):
         """Insert the given item in order into this binary search tree.
@@ -119,6 +121,7 @@ class BinarySearchTree(object):
 
     def delete(self, item):
         """ delete the given item in this binary search tree."""
+        # (find predicessor 9the node that's immediately next to order of root node)
         if self.is_empty():
             raise ValueError("your tree is empty")
         else:
@@ -204,11 +207,12 @@ class BinarySearchTree(object):
         if node.left:
             _traverse_in_order_recursive(node.left, visit)
         # TODO: Visit this node's data with given function
-            visit(node.data)
+        visit(node.data)
         # TODO: Traverse right subtree, if it exists
         if node.right:
             _traverse_in_order_recursive(node.right, visit)
 
+# To get all nodes in a hashtable: it's o(nl) run time, n is num of buckets, l is length of linked list . ln is (entry num)
     def _traverse_in_order_iterative(self, node, visit):
         """Traverse this binary tree with iterative in-order traversal (DFS).
         Start at the given node and visit each node with the given function.
@@ -264,11 +268,15 @@ class BinarySearchTree(object):
             visit(node.data)
             # append right_child first and then left_child, caz we want to visit left before right
             if node.right:
-            node_stack.append(node.right)
+                node_stack.append(node.right)
             if node.left:
-            node_stack.append(node.left)
+                node_stack.append(node.left)
+            if node.left
+            node_stack.append(self.root)
+            if node.right:
+                node_stack.append(node.right)
 
-
+# lexicoghraphic, binary search tree is ordered
     def items_post_order(self):
         """Return a post-order list of all items in this binary search tree."""
         items = []
@@ -284,6 +292,8 @@ class BinarySearchTree(object):
         TODO: Running time: ??? Why and under what conditions?
         TODO: Memory usage: ??? Why and under what conditions?"""
         # TODO: Traverse left subtree, if it exists
+        # deepest call stack is height, so it's only O(log2^n) memory management,same running time : o(n)
+        # better to use recursive then iterative to traverse
         _traverse_post_order_recursive(node.left)
         # TODO: Traverse right subtree, if it exists
         _traverse_post_order_recursive(node.right)
@@ -322,6 +332,7 @@ class BinarySearchTree(object):
         # Return level-order list of all items in tree
         return items
 
+# !! both running time and memory storage is big O(N)(n is num of node, based on the num of node in the base level)
     def _traverse_level_order_iterative(self, start_node, visit):
         """Traverse this binary tree with iterative level-order traversal (BFS).
         Start at the given node and visit each node with the given function.
@@ -330,13 +341,20 @@ class BinarySearchTree(object):
         # TODO: Create queue to store nodes not yet traversed in level-order
         queue = deque()
         # TODO: Enueue given starting node
-        queue.append(root_node)
+        queue.append(start_node)
         # TODO: Loop until queue is empty
         while len(queue) > 0:
             # TODO: Dequeue node at front of queue
+            # if linked list que, O(1), if regular queue: o(n)
+            # enqueue alwyas o(1) for both implementation
+            # logrithsm: which power should I raise base to that reaches 2^n: height: log(2^n)
+            # double the nodes, and the level/height only inches up
+            # facebook has a billion user, which is 2^30, we only need to go 30 levels deep to search through all users
+            # if you double your users, it only need to expand one level deep
+            # memory management: half billion user on the base level: o(n), n is number of nodes
             node = queue.popleft()
             # TODO: Visit this node's data with given function
-            visit(node)
+            visit(node.data)
             # TODO: Enqueue this node's left child, if it exists
             if node.left:
                 queue.append(node.left)

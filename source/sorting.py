@@ -6,7 +6,10 @@ def is_sorted(items):
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
     # TODO: Check that all adjacent items are in order, return early if not
-
+    for i in range(0, len(items)-1):
+        if items[i] > items[i+1]:
+            return False
+        return True
 
 def bubble_sort(items):
     """Sort given items by swapping adjacent items that are out of order, and
@@ -15,17 +18,35 @@ def bubble_sort(items):
     TODO: Memory usage: ??? Why and under what conditions?"""
     # TODO: Repeat until all items are in sorted order
     # TODO: Swap adjacent items that are out of order
+    isSorted = False
+    while isSorted:
+        for i in range(i, len(items)-1):
+            # swap is left item is bigger than right
+            if items[i] > items[i+1]:
+                temp = items[i]
+                items[i] = items[i+1]
+                items[i+1] = temp
+        # iterate through the items, if all of left is smaller than right, then it's sorted
+        isSorted = True
 
 
 def selection_sort(items):
     """Sort given items by finding minimum item, swapping it with first
-    unsorted item, and repeating until all items are in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
+    unsorted item, and repeating until all items are in sorted order."""
     # TODO: Repeat until all items are in sorted order
-    # TODO: Find minimum item in unsorted items
-    # TODO: Swap it with first unsorted item
-
+    for i in range(0, len(items)):
+       check = 0
+    # set first item to be smallest
+       mini = items[check]
+       # swap if mini bigger than the next element
+       if mini > item[i+1]:
+        # temp to store value of temp for future swap
+            temp = item[i+1]
+            item[i+1] = mini
+            items[0] = item[i+1]
+        else:
+            # if found mini, increase the first item index by 1
+            check += 1
 
 def insertion_sort(items):
     """Sort given items by taking first unsorted item, inserting it in sorted
@@ -35,6 +56,18 @@ def insertion_sort(items):
     # TODO: Repeat until all items are in sorted order
     # TODO: Take first unsorted item
     # TODO: Insert it in sorted order in front of items
+    for i in range(0, len(items)-1):
+        last_index = 0
+        unsorted = items[i]
+        if unsorted > items[i+1]:
+            insert_item = items.pop(unsorted)
+            # iterate through items from last sorted item to far left
+            for j in last_index:
+                if items[j] > insert_item:
+                    # insert in front of the item if insert_item smaller then it
+                    items.insert(j-1, insert_item)
+                else:
+                    break
 
 
 def merge(items1, items2):
