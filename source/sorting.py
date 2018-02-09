@@ -56,11 +56,13 @@ def insertion_sort(items):
     # TODO: Repeat until all items are in sorted order
     # TODO: Take first unsorted item
     # TODO: Insert it in sorted order in front of items
+    # how keep track of first unsorted item index?
     for i in range(0, len(items)-1):
         last_index = 0
         unsorted = items[i]
         if unsorted > items[i+1]:
             insert_item = items.pop(unsorted)
+            last_index += 1
             # iterate through items from last sorted item to far left
             for j in last_index:
                 if items[j] > insert_item:
