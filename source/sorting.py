@@ -84,7 +84,27 @@ def merge(items1, items2):
     # TODO: Repeat until one list is empty
     # TODO: Find minimum item in both lists and append it to new list
     # TODO: Append remaining items in non-empty list to new list
-
+    merged_list = []
+    l_index = 0
+    r_index = 0
+    # iterate through the two list
+    while l_index < len(items1) and r_index < len(items2):
+        # append smallest item to empty list
+        if items1[l_index] < items2[r_index]:
+            # remove small item from list
+            mini = items1.pop(l_index)
+            merged_list.append(mini)
+            l_index += 1
+        else:
+            mini = items2.pop(l_index)
+            merged_list.append(mini)
+            r_index += 1
+    # add whatever left in one list after we iterate through one list
+    if l_index < r_index:
+        merged_list.append(items2)
+    else:
+        merged_list.append(items1)
+    return merged_list
 
 def split_sort_merge(items):
     """Sort given items by splitting list into two approximately equal halves,
@@ -95,7 +115,13 @@ def split_sort_merge(items):
     # TODO: Split items list into approximately equal halves
     # TODO: Sort each half using any other sorting algorithm
     # TODO: Merge sorted halves into one list in sorted order
-
+    mid = Int(items / 2)
+    items1 = items[:mid]
+    items2 = items[mid:]
+    items1 = self.selection_sort(items1)
+    items2 = self.selection_sort(items2)
+    # update new merged list into items
+    items = self.merge(items1, items2)
 
 def merge_sort(items):
     """Sort given items by splitting list into two approximately equal halves,
@@ -106,7 +132,16 @@ def merge_sort(items):
     # TODO: Split items list into approximately equal halves
     # TODO: Sort each half by recursively calling merge sort
     # TODO: Merge sorted halves into one list in sorted order
-
+    if len(items) > 1:
+        # define middle point
+        mid = len(items) // 2
+        # recursively calling the sorting function
+        left = items[:mid]
+        right = items[mid:]
+        merge_sort(left)
+        merge_sort(right)
+        # merge left and right by calling merge function we made earlier
+        merge(left, right)
 
 def random_ints(count=20, min=1, max=50):
     """Return a list of `count` integers sampled uniformly at random from
