@@ -95,15 +95,24 @@ def merge(items1, items2):
             mini = items1.pop(l_index)
             merged_list.append(mini)
             l_index += 1
-        else:
-            mini = items2.pop(l_index)
+        elif items1[l_index] > items2[r_index]:
+            mini = items2.pop(r_index)
             merged_list.append(mini)
             r_index += 1
+        # if two items are equal, append them both to list and increase index of both side
+        else:
+            mini = items2.pop(r_index)
+            mini2 = items1.pop(l_index)
+            merged_list.append(mini)
+            merged_list.append(mini2)
+            r_index += 1
+            l_index += 1
+
     # add whatever left in one list after we iterate through one list
-    if l_index < r_index:
-        merged_list.append(items2)
-    else:
-        merged_list.append(items1)
+    if l_index == len(items1):
+        merged_list.extend(items2)
+    elif r_index == len(items2):
+        merged_list.extend(items1)
     return merged_list
 
 def split_sort_merge(items):
@@ -135,7 +144,7 @@ def merge_sort(items):
     if len(items) > 1:
         # define middle point
         mid = len(items) // 2
-        # recursively calling the sorting function
+        # recursively calling the sorting function (merge ordered list into new list)
         left = items[:mid]
         right = items[mid:]
         merge_sort(left)
