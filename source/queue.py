@@ -47,6 +47,9 @@ class LinkedQueue(object):
             return None
         self.list.get_at_index(0)
 
+    # append item at the front of the queue
+    def prepend(self, item):
+        self.list.prepend(item)
 
     def dequeue(self):
         """Remove and return the item at the front of this queue,
@@ -103,7 +106,7 @@ class ArrayQueue(object):
             return None
         front = self[0]
         if front != None:
-        return front
+            return front
 
     def dequeue(self):
         """Remove and return the item at the front of this queue,

@@ -1,5 +1,5 @@
 #!python
-
+from binarytree import BinarySearchTree
 
 def is_sorted(items):
     """Return a boolean indicating whether given items are in sorted order.
@@ -91,28 +91,31 @@ def merge(items1, items2):
     while l_index < len(items1) and r_index < len(items2):
         # append smallest item to empty list
         if items1[l_index] < items2[r_index]:
+            merged_list.append(items1[l_index])
             # remove small item from list
-            mini = items1.pop(l_index)
-            merged_list.append(mini)
+            items1.pop(l_index)
             l_index += 1
         elif items1[l_index] > items2[r_index]:
-            mini = items2.pop(r_index)
-            merged_list.append(mini)
+            merged_list.append(items2[r_index])
+            items2.pop(r_index)
             r_index += 1
         # if two items are equal, append them both to list and increase index of both side
         else:
-            mini = items2.pop(r_index)
-            mini2 = items1.pop(l_index)
-            merged_list.append(mini)
-            merged_list.append(mini2)
+            merged_list.append(items2[r_index])
+            merged_list.append(items1[l_index])
+            items2.pop(r_index)
+            items1.pop(l_index)
             r_index += 1
             l_index += 1
 
     # add whatever left in one list after we iterate through one list
     if l_index == len(items1):
-        merged_list.extend(items2)
+        for i in range(l_index):
+            merged_list.append(items2[i])
     elif r_index == len(items2):
-        merged_list.extend(items1)
+        for i in range(r_index):
+            merged_list.append(items2[i])
+    # print(merged_list)
     return merged_list
 
 def split_sort_merge(items):
@@ -124,13 +127,19 @@ def split_sort_merge(items):
     # TODO: Split items list into approximately equal halves
     # TODO: Sort each half using any other sorting algorithm
     # TODO: Merge sorted halves into one list in sorted order
-    mid = Int(items / 2)
+    mid = len(items) // 2
     items1 = items[:mid]
     items2 = items[mid:]
-    items1 = self.selection_sort(items1)
-    items2 = self.selection_sort(items2)
+    selection_sort(items1)
+    selection_sort(items2)
     # update new merged list into items
-    items = self.merge(items1, items2)
+    # items = self.merge(items1, items2)
+    # DEEP COPY! this can change global var items into this new list(reassign new content to the property of old list)
+    items[:] = merge(items1, items2)
+
+def tree_sort(items):
+    binaryTree = BinarySearchTree(items)
+    items[:] = binaryTree.items_in_order()
 
 def merge_sort(items):
     """Sort given items by splitting list into two approximately equal halves,
@@ -150,7 +159,9 @@ def merge_sort(items):
         merge_sort(left)
         merge_sort(right)
         # merge left and right by calling merge function we made earlier
-        merge(left, right)
+        items[:] = merge(left, right)
+    else:
+        return items
 
 def random_ints(count=20, min=1, max=50):
     """Return a list of `count` integers sampled uniformly at random from
