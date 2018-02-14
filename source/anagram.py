@@ -10,7 +10,7 @@ def make_anagram(text):
             for i in range(len(text)):
                 arr.append(element[:i] + text[0:1] + element[i:])
         return arr
-print(make_anagram("tacohole"))
+# print(make_anagram("tacohole"))
 
 # recursive method to convert str_list of str into different str_lists containing the str element
 def permutation(text):
@@ -29,7 +29,7 @@ def permutation(text):
             # generate str_list that starts with each different element of str str_list
             result.append([item] + j)
     return result
-for p in permutation("whatthefuck"):
+for p in permutation("skyrockk"):
     print(p)
 
 

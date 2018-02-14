@@ -141,6 +141,22 @@ def tree_sort(items):
     binaryTree = BinarySearchTree(items)
     items[:] = binaryTree.items_in_order()
 
+def quick_sort(items):
+    i = 0
+    pivot = items[i]
+    while i < len(items)-1:
+        for j in range(i, len(items)-2):
+            # keep iterate if next items after pivot is smaller than pivot, else, swap
+            if items[j] <= pivot:
+                # increase store (compare) index
+                i += 1
+                # swap if next items after pivot is bigger
+                items[i], items[j] = items[j], items[i]
+        items[i], items[i-1] = items[i-1], items[i]
+        return items
+
+
+
 def merge_sort(items):
     """Sort given items by splitting list into two approximately equal halves,
     sorting each recursively, and merging results into a list in sorted order.
