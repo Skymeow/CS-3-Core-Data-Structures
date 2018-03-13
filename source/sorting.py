@@ -1,6 +1,7 @@
 #!python
 from binarytree import BinarySearchTree
 
+# small range insertion sort, large range merge sort, if know all in a roll, copy all of them into one chunk(MAIN: USE DIFFERENT SCALE)
 def is_sorted(items):
     """Return a boolean indicating whether given items are in sorted order.
     TODO: Running time: ??? Why and under what conditions?
@@ -137,6 +138,7 @@ def split_sort_merge(items):
     # DEEP COPY! this can change global var items into this new list(reassign new content to the property of old list)
     items[:] = merge(items1, items2)
 
+# divide log2N time, cause we divide half and half
 def tree_sort(items):
     binaryTree = BinarySearchTree(items)
     items[:] = binaryTree.items_in_order()
@@ -155,7 +157,20 @@ def quick_sort(items):
         items[i], items[i-1] = items[i-1], items[i]
         return items
 
-
+# is logn time to divide cause we pick the pivot arbitrary, so two divided list can be uneven length
+def quick_sort(items):
+    pivot = items[0]
+    lesser_list = []
+    greater_list = []
+    for i in range(1, len(items)):
+        item = items[index]
+        if item <= pivot:
+            lesser_list.append(item)
+        else:
+            greater_list.append(item)
+        quick_sort(lesser_list)
+        quick_sort(greater_list)
+    items[:] = lesser_list + pivot + greater_list
 
 def merge_sort(items):
     """Sort given items by splitting list into two approximately equal halves,

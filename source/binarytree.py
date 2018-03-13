@@ -235,17 +235,17 @@ class BinarySearchTree(object):
             # first check left leaves caz we are using queue, first in first out.
             while node.left:
                 # put left node in the front of the queue
-                node_stack.prepend(node.left)
+                node_stack.appendleft(node.left)
                 node = node.left
             # after going through all left leaves , look for right
             else:
                 # pop out item from front if no more left
-                node = node_stack.dequeue()
+                node = node_stack.popleft()
                 visit(node.data)
                 # check right to see if it has left
                 if node.right:
                     # append at front
-                    node_stack.prepend(node.right)
+                    node_stack.appendleft(node.right)
                     node = node.right
         return
 
