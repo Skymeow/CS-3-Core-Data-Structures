@@ -28,23 +28,20 @@
 # wrost case: O(n*p)
 def contains(text, pattern):
     """Return a boolean indicating whether pattern occurs in text."""
-
     assert isinstance(text, str), 'text is not a string: {}'.format(text)
     assert isinstance(pattern, str), 'pattern is not a string: {}'.format(text)
     if pattern == '':
         return True
-    i = 0
-    end = len(text)
-    while i < end:
-        if pattern[0] == text[i]:
-            i += 1
-            if text[i+1] != pattern[i]:
-                break
-            if i+1 > len(text) - 1:
-                break
-            elif i+1 == len(pattern) and text[i+1] == pattern_index[i]:
-                return True
-        i += 1
+    text_end = len(text)
+    pattern_end = len(pattern)
+    for text_index in range(0, text_end):
+        if text[text_index] == pattern[0]:
+            for pattern_index in range(0, pattern_end):
+                if pattern_index + text_index > text_end - 1 or not text[text_index+pattern_index] == pattern[pattern_index]:
+                    print(text_index, pattern_index)
+                    break
+                elif pattern_index == pattern_end - 1 and text[text_index+pattern_index] == pattern[pattern_index]:
+                    return True
     return False
 
 def find_index(text, pattern):
@@ -121,12 +118,12 @@ def main():
         test_string_algorithms(text, pattern)
     else:
         script = sys.argv[0]
-        print('Usage: {} text pattern'.format(script))
-        print('Searches for occurrences of pattern in text')
-        print("\nExample: {} 'abra cadabra' 'abra'".format(script))
-        print("contains('abra cadabra', 'abra') => True")
-        print("find_index('abra cadabra', 'abra') => 0")
-        print("find_all_indexes('abra cadabra', 'abra') => [0, 8]")
+        # print('Usage: {} text pattern'.format(script))
+        # print('Searches for occurrences of pattern in text')
+        # print("\nExample: {} 'abra cadabra' 'abra'".format(script))
+        print(contains('aaaaaab', 'aaab'))
+        # print("find_index('abra cadabra', 'abra') => 0")
+        # print("find_all_indexes('abra cadabra', 'abra') => [0, 8]")
 
 
 if __name__ == '__main__':
