@@ -145,23 +145,28 @@ def merge(items1, items2):
 
     # keep going if didn't go through merging all left and right list
     while l_index < len(items1) and r_index < len(items2):
+        print(l_index, r_index)
         # append smallest item from l or r to merged list
         if items1[l_index] < items2[r_index]:
             merged_list.append(items1[l_index])
             l_index += 1
+            print("first", l_index, r_index)
         else:
             merged_list.append(items2[r_index])
             r_index += 1
+            print("second", l_index, r_index)
         # if either left or right list finished iteration, add the rest of another part to merged list
     if l_index != len(items1):
         merged_list.extend(items1[l_index:])
     else:
+        print("r_index", r_index)
         merged_list.extend(items2[r_index:])
 
     return merged_list
 print(merge([3, 4, 7], [6, 9]))
 
 
+# run time: o(logn)
 def merge_sort(items):
     """Sort given items by splitting list into two approximately equal halves,
     sorting each recursively, and merging results into a list in sorted order.
@@ -184,7 +189,7 @@ def merge_sort(items):
     # merge left and right by calling merge function we made earlier
     items = merge(items1, items2)
     return items
-print(merge_sort([3, 15, 4, 7, 20, 6, 18, 11, 9, 7]))
+# print(merge_sort([3, 15, 4, 7, 20, 6, 18, 11, 9, 7]))
 
 
 # def random_ints(count=20, min=1, max=50):
